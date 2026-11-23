@@ -22,3 +22,8 @@ def test_tc3_account_details(accounts_page):
 
 def test_tc7_total(accounts_page):
     expect(accounts_page.total).to_have_text("£6,000.00")
+def test_tc10_only_own_accounts(accounts_page):
+    expect(accounts_page.account_rows).to_have_count(2)
+def test_t12_canot_open_history_of_other_account(accounts_page):
+    accounts_page.page.goto("/history/3")
+    expect(accounts_page.page.get_by_text("Account not found")).to_be_visible()

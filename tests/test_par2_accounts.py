@@ -27,3 +27,13 @@ def test_tc10_only_own_accounts(accounts_page):
 def test_t12_canot_open_history_of_other_account(accounts_page):
     accounts_page.page.goto("/history/3")
     expect(accounts_page.page.get_by_text("Account not found")).to_be_visible()
+
+def test_tc8_history_link(accounts_page):
+    accounts_page.history_link(10000001).click()
+    expect(accounts_page.page.get_by_role("heading", name="Transaction History")).to_be_visible()
+    expect(accounts_page.page.locator('[data-test="history-account-number"]')).to_have_text("10000001")
+    accounts_page.open()
+    accounts_page.history_link(10000002).click()
+    expect(accounts_page.page.get_by_role("heading", name="Transaction History")).to_be_visible()
+    
+    expect(accounts_page.page.locator('[data-test="history-account-number"]')).to_have_text("10000002")
